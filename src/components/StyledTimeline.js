@@ -5,11 +5,13 @@ export const StyledTimeline = styled.div`
   width: 100%;
   padding: 16px;
   overflow: hidden;
+
   h2 {
     font-size: 16px;
     margin-bottom: 16px;
     text-transform: capitalize;
   }
+
   img {
     aspect-ratio: 16/9;
     font-weight: 500;
@@ -18,11 +20,13 @@ export const StyledTimeline = styled.div`
     max-width: 210px;
     height: auto;
   }
+
   section {
     width: 100%;
     padding: 0;
     overflow: hidden;
     padding: 16px;
+
     div {
       
       width: calc(100vw - 16px * 4);
@@ -33,6 +37,7 @@ export const StyledTimeline = styled.div`
       grid-auto-columns: minmax(200px,1fr);
       overflow-x: scroll;
       scroll-snap-type: x mandatory;
+
       a {
         scroll-snap-align: start;
         span {
@@ -41,7 +46,11 @@ export const StyledTimeline = styled.div`
           padding-right: 24px;
           color: ${({ theme }) => theme.textColorBase || "#222222"};
         }
+
       }
+
     }
+
   }
+  
 `;
