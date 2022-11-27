@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ColorModeContext } from "../src/components/Menu/components/ColorMode";
 
 
@@ -17,7 +17,7 @@ export default function Video() {
 
             </button>
 
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/cf_sHldG9c4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe width="560" height="315" src={`${ (typeof window !== "undefined") && JSON.parse(localStorage.video).url}`} title={`${ (typeof window !== "undefined") && JSON.parse(localStorage.video).title }`} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
         </div>
         

@@ -12,13 +12,10 @@ import { StyledBanner } from '../src/components/StyledBanner';
 import { StyledFavorites } from '../src/components/StyledFavorites';
 import { StyledFavoriteCard } from '../src/components/StyledFavoriteCard';
 
+
 function HomePage() {
-    const estilosDaHomePage = {
-        // backgroundColor: "red" 
-    };
-
     const [valorDoFiltro, setValorDoFiltro] = react.useState("");
-
+    
     return (
         <>
             <CSSReset />
@@ -80,8 +77,10 @@ function Header() {
 function Timeline({ valorDoFiltro, ...props }) {
     const playlistNames = Object.keys(props.playlists);
 
+    const videoSelecionado = { title: '', url: '' };
+
     return (
-        <StyledTimeline>
+        <StyledTimeline videoSelecionado={videoSelecionado} >
             {playlistNames.map((playlistName) => {
                 const videos = props.playlists[playlistName];
 
@@ -99,7 +98,18 @@ function Timeline({ valorDoFiltro, ...props }) {
                                 })
                                 .map((video) => {
                                     return (
-                                        <a key={video.url} href={'/video'}>
+                                        <a key={video.url} href={'/video'} onClick={(e) => {
+                                                const categoriaPlaylist = e.target.parentElement.parentElement.parentElement.querySelector('h2').textContent;
+                                                const titleVideo = e.target.parentElement.querySelector('span').textContent;
+                                                const urlVideo = config.playlists[categoriaPlaylist].filter((video) => video.title === titleVideo).map((video) => video.url)[0];
+
+                                                videoSelecionado.title = titleVideo;
+                                                videoSelecionado.url = urlVideo;
+
+                                                localStorage.setItem('video', JSON.stringify(videoSelecionado));
+
+                                            }}>
+
                                             <img src={video.thumb} />
 
                                             <span>

@@ -45,6 +45,7 @@ export const StyledTimeline = styled.div`
           display: block;
           padding-right: 24px;
           color: ${({ theme }) => theme.textColorBase || "#222222"};
+          cursor: pointer;
         }
 
       }
