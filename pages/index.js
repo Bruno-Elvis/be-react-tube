@@ -90,26 +90,28 @@ function Timeline({ valorDoFiltro, ...props }) {
                         <h2>{playlistName}</h2>
 
                         <div>
-                            {videos.filter((video) => {
+                            {videos
+                                .filter((video) => {
                                     const titleNormalized = video.title.toLowerCase();
                                     const searchValueNormalized = valorDoFiltro.toLowerCase();
 
                                     return titleNormalized.includes(searchValueNormalized);
                                 })
                                 .map((video) => {
-                                return (
-                                    <a key={video.url} href={video.url}>
-                                        <img src={video.thumb} />
+                                    return (
+                                        <a key={video.url} href={'/video'}>
+                                            <img src={video.thumb} />
 
-                                        <span>
-                                            {video.title}
-                                        </span>
+                                            <span>
+                                                {video.title}
+                                            </span>
 
-                                    </a>
+                                        </a>
 
-                                );
+                                    );}
+                                )
 
-                            })};
+                            };
 
                         </div>
 
