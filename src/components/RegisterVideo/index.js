@@ -1,87 +1,99 @@
-import React from "react";
+import { useState } from "react";
+
 import { StyledRegisterVideo } from "./styles";
 
-// Whiteboarding
-// Custom Hook
 function useForm(propsDoForm) {
-    const [values, setValues] = React.useState(propsDoForm.initialValues);
+    const [values, setValues] = useState(propsDoForm.initialValues);
+
+    const [formVisivel, setFormVisivel] = useState(false);
+
+    const regExValidarLink = /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/;
 
     return {
         values,
+        formVisivel,
+        setFormVisivel,
         handleChange: (evento) => {
-            console.log(evento.target);
             const value = evento.target.value;
-            const name = evento.target.name
-            setValues({
-                ...values,
-                [name]: value,
-            });
+            const name = evento.target.name;
+
+            setValues({ ...values, [name]: value });
+
         },
-        clearForm() {
-            setValues({});
+
+        handleSubmit: (evento) => {
+            evento.preventDefault();
+
+            console.log(values);
+
+            if (regExValidarLink.test(values.url)) {
+                setFormVisivel(false);
+
+                const idVideo = values.url.slice(values.url.indexOf('v=') + 2);
+
+                const thumb = `https://img.youtube.com/vi/${ idVideo }/hqdefault.jpg`;
+
+                console.log(thumb);
+
+                setValues({});
+
+            } else {
+                alert('O link informado não é valido!');
+
+            };
+
         }
+
     };
-}
+
+};
 
 export function RegisterVideo() {
     const formCadastro = useForm({
-        initialValues: { titulo: "Insira o título do video", url: "https://youtube.com/..." }
-    });
-    const [formVisivel, setFormVisivel] = React.useState(false);
-    /*
-    ## O que precisamos para o form funcionar?
-    - pegar os dados, que precisam vir do state
-        - titulo
-        - url do vídeo 
-    - precisamos ter um onSubmit do nosso form
-    - Limpar o formulário após o Submit
-    */
+        initialValues: { titulo: '', url: '', thumb: '' }
 
+    });
+    
     return (
         <StyledRegisterVideo>
-            <button className="add-video" onClick={() => setFormVisivel(true)}>
+            <button className="add-video" onClick={() => formCadastro.setFormVisivel(true)}>
                 +
             </button>
-            {/* Ternário */}
-            {/* Operadores de Curto-circuito */}
-            {formVisivel
-                ? (
-                    <form onSubmit={(evento) => {
-                        evento.preventDefault();
-                        console.log(formCadastro.values);
 
-                        setFormVisivel(false);
-                        formCadastro.clearForm();
-                    }}>
-                        <div>
-                            <button type="button" className="close-modal" onClick={() => setFormVisivel(false)}>
-                                X
-                            </button>
-                            <input
-                                placeholder="Titulo do vídeo"
-                                name="titulo"
-                                value={formCadastro.values.titulo}
-                                onChange={formCadastro.handleChange}
-                            />
-                            <input
-                                placeholder="URL"
-                                name="url"
-                                value={formCadastro.values.url}
-                                onChange={formCadastro.handleChange}
-                            />
-                            <button type="submit">
-                                Cadastrar
-                            </button>
-                        </div>
-                    </form>
-                )
-                : false}
+            {formCadastro.formVisivel
+                && (<form onSubmit={formCadastro.handleSubmit}>
+
+                    <div>
+                        <button type="button" className="close-modal" onClick={() => formCadastro.setFormVisivel(false)}>
+                            X
+                        </button>
+
+                        <input
+                            placeholder="Titulo do vídeo"
+                            name="titulo"
+                            value={formCadastro.values.titulo}
+                            onChange={formCadastro.handleChange}
+                        />
+
+                        <input
+                            placeholder="URL"
+                            name="url"
+                            value={formCadastro.values.url}
+                            onChange={formCadastro.handleChange}
+                        />
+
+                        <button type="submit">
+                            Cadastrar
+                        </button>
+
+                    </div>
+
+                </form>)
+
+            };
+
         </StyledRegisterVideo>
-    )
-}
 
+    );
 
-// [X] Falta o botão para adicionar
-// [X] Modal
-// -> [X] Precisamos controlar o state
-// -> Formulário em si
+};
