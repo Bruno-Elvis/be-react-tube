@@ -26,7 +26,7 @@ function HomePage() {
                 flex: 1
 
             }}>
-                <Menu valorDoFiltro={valorDoFiltro} setValorDoFiltro={setValorDoFiltro} />
+                <Menu valorDoFiltro={valorDoFiltro} setValorDoFiltro={setValorDoFiltro} showSearchBar = { 'flex' } showUserPicture = { 'none' }/>
 
                 <Header />
 

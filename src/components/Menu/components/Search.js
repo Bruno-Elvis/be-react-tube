@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const StyledSearch = styled.div`
-  display: flex;
+  display: ${ ({ showSearchBar }) => showSearchBar };
   flex-direction: row;
   border: 1px solid ${({ theme }) => theme.borderBase};
   max-width: 425px;
@@ -36,12 +36,12 @@ const StyledSearch = styled.div`
 
 `;
 
-export function Search({ valorDoFiltro, setValorDoFiltro }) {
+export function Search({ valorDoFiltro, setValorDoFiltro, showSearchBar }) {
   const valorDaBusca = valorDoFiltro;
   const setValorDaBusca = setValorDoFiltro;
 
   return (
-      <StyledSearch>
+      <StyledSearch showSearchBar = { showSearchBar }>
           <input type="text" onChange={(e) => setValorDaBusca(e.target.value)} value={valorDaBusca} />
 
           <button>
