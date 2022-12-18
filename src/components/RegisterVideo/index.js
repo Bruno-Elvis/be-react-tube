@@ -2,12 +2,14 @@ import { useState } from "react";
 
 import { StyledRegisterVideo } from "./styles";
 
+import { videoService } from '../services/videoService';
+
 function useForm(propsDoForm) {
     const [values, setValues] = useState(propsDoForm.initialValues);
 
     const [formVisivel, setFormVisivel] = useState(false);
 
-    const regExValidarLink = /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/;
+    const service = videoService();
 
     return {
         values,
@@ -26,14 +28,14 @@ function useForm(propsDoForm) {
 
             console.log(values);
 
-            if (regExValidarLink.test(values.url)) {
+            if (validateYouTubeURL(values.url)) {
                 setFormVisivel(false);
 
-                const idVideo = values.url.slice(values.url.indexOf('v=') + 2);
+                const thumb = getThumbnail(values.url);
 
-                const thumb = `https://img.youtube.com/vi/${ idVideo }/hqdefault.jpg`;
+                videoService.createVideo
 
-                console.log(thumb);
+                service.createVideo(values.titulo, values.url, thumb, 'jogos');
 
                 setValues({});
 
@@ -48,9 +50,21 @@ function useForm(propsDoForm) {
 
 };
 
+function getThumbnail (url) {
+    const idVideo = url.slice(url.indexOf('v=') + 2);
+
+    return `https://img.youtube.com/vi/${ idVideo }/hqdefault.jpg`;
+};
+
+function validateYouTubeURL (url) {
+    const regExValidarLink = /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/;
+
+    return regExValidarLink.test(url);
+};
+
 export function RegisterVideo() {
     const formCadastro = useForm({
-        initialValues: { titulo: '', url: '', thumb: '' }
+        initialValues: { titulo: '', url: '' }
 
     });
     

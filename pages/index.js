@@ -1,6 +1,7 @@
-import react from "react";
+import { useState, useEffect } from "react";
 
 import config from "../config.json";
+import { videoService } from "../src/components/services/videoService";
 
 import { Menu } from "../src/components/Menu";
 
@@ -14,7 +15,33 @@ import { StyledFavoriteCard } from '../src/components/StyledFavoriteCard';
 
 
 function HomePage() {
-    const [valorDoFiltro, setValorDoFiltro] = react.useState("");
+    const service = videoService();
+    const [valorDoFiltro, setValorDoFiltro] = useState("");
+    const [playlists, setPlaylists] = useState({});
+
+    useEffect(() => {
+        console.log("useEffect");
+        service
+            .getAllVideos()
+            .then((dados) => {
+                console.log(dados.data);
+                // Imutabilidade
+                const novasPlaylists = {};
+
+                dados.data?.forEach((video) => {
+                    if (!novasPlaylists[video.playlist]) novasPlaylists[video.playlist] = [];
+                    novasPlaylists[video.playlist] = [
+                        video,
+                        ...novasPlaylists[video.playlist],
+                    ];
+
+                });
+
+                setPlaylists(novasPlaylists);
+
+            });
+
+    }, []);
     
     return (
         <>
@@ -26,11 +53,11 @@ function HomePage() {
                 flex: 1
 
             }}>
-                <Menu valorDoFiltro={valorDoFiltro} setValorDoFiltro={setValorDoFiltro} showSearchBar = { 'flex' } showUserPicture = { 'none' }/>
+                <Menu valorDoFiltro={valorDoFiltro} setValorDoFiltro={ setValorDoFiltro } showSearchBar = { 'flex' } showUserPicture = { 'none' }/>
 
                 <Header />
 
-                <Timeline valorDoFiltro={valorDoFiltro} playlists={config.playlists}>
+                <Timeline valorDoFiltro={valorDoFiltro} playlists={ playlists /*config.playlists*/ }> 
                     Conteúdo
                 </Timeline>
 
@@ -50,7 +77,7 @@ function Header() {
             <StyledBanner />
 
             <section className="user-info">
-                <img src={`https://github.com/${config.github}.png`} />
+                <img src={ `https://github.com/${config.github}.png` } />
 
                 <div>
                     <h2>
@@ -101,13 +128,15 @@ function Timeline({ valorDoFiltro, ...props }) {
                                         <a key={video.url} href={'/video'} onClick={(e) => {
                                                 const categoriaPlaylist = e.target.parentElement.parentElement.parentElement.querySelector('h2').textContent;
                                                 const titleVideo = e.target.parentElement.querySelector('span').textContent;
-                                                const urlVideo = config.playlists[categoriaPlaylist].filter((video) => video.title === titleVideo).map((video) => video.url)[0];
+                                                const urlVideo = props.playlists[categoriaPlaylist].filter((video) => video.title === titleVideo).map((video) => video.url)[0];
 
                                                 videoSelecionado.title = titleVideo;
                                                 videoSelecionado.url = urlVideo;
 
                                                 localStorage.setItem('video', JSON.stringify(videoSelecionado));
 
+                                                console.log(titleVideo, urlVideo);
+                                                
                                             }}>
 
                                             <img src={video.thumb} />
