@@ -10,11 +10,13 @@ Seja bem vindo ao projeto base do BE-React-Tube!!!
 
 # Como Utilizar
 - Ao Entrar na page princial é exibida a lista de videos e em suas respectivas playlists;
+- Para buscar algum video por seu título, basta apenas digitar o título do video na barra de pesquisa no topo da pagina principal;
 - Para adicionar um novo video à playlist deve-se clicar no botão flutuante em vermelho na lateral inferior direita e informar as informações solicitadas.
 - Para assistir algumdos videos, basta clicar no mesmo, você será direcionado a page de video onde será exibida uma janela com o video;
 
 # Funcionamento
 - A aplicação solicita um título para o video a ser cadastrado e a URL do mesmo;
+- Foi implementada uma busca simples por título de video na page principal, com manipulação de DOM;
 - A aplicação valida se a URL informada é uma URL legítima do YouTube (utilizei ReGex para tal);
 - A Thumbnail é gerada automaticamente;
 - Para a funcionalidade "/video" utilizei localStorage para armazenamento da informação do video selecionado da sessão;
