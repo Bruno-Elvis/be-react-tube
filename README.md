@@ -11,7 +11,12 @@ Seja bem vindo ao projeto base do BE-React-Tube!!!
 # Como Utilizar
 - Ao Entrar na page princial é exibida a lista de videos e em suas respectivas playlists;
 - Para buscar algum video por seu título, basta apenas digitar o título do video na barra de pesquisa no topo da pagina principal;
+![image](https://user-images.githubusercontent.com/50249992/208325637-051a9ab7-f732-412e-915b-73eb6370cad3.png)
+
 - Para adicionar um novo video à playlist deve-se clicar no botão flutuante em vermelho na lateral inferior direita e informar as informações solicitadas.
+  
+  ![image](https://user-images.githubusercontent.com/50249992/208325736-79ce71d2-8d32-4dc1-85fa-003b312def2d.png)
+
 - Para assistir algumdos videos, basta clicar no mesmo, você será direcionado a page de video onde será exibida uma janela com o video;
 
 # Funcionamento
